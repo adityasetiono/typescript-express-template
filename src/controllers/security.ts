@@ -18,7 +18,7 @@ router.post('/login', async function (req: Request, res: Response, next: NextFun
       const token:string = await user.generateToken();
       res.json({
         user,
-        token: token
+        authToken: token
       });
     }
   } catch (err) {
