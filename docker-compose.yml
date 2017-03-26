@@ -1,0 +1,30 @@
+version: '2'
+volumes:
+  mysql_db:
+    external: true
+services:
+  mysql:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=template
+      - MYSQL_USERNAME=root
+      - MYSQL_PASSWORD=password
+    volumes:
+      - mysql_db:/var/lib/mysql
+    ports:
+      - "3306:3306"
+  web:
+    build: ./
+    command: yarn run dev
+    ports:
+        - "80:3000"
+    volumes:
+        - ./src:/code/src
+        - ./config:/code/config
+        - ./dist:/code/dist
+    tty: true
+    links:
+        - mysql
+    environment:
+        NODE_ENV:

@@ -1,0 +1,8 @@
+./.tmp
+**/views/**
+.git
+.git/
+.git/**
+*.log
+./src
+./config
