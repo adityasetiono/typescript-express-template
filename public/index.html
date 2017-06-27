@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+</head>
+
+<body>
+  <h1>Hello World!</h1>
+  <div id="future"></div>
+  <form id="form" id="chat_form" action="#">
+    <input id="chat_input" type="text">
+    <input type="submit" value="Send">
+    <div>
+      <button onclick="test()">Test</button>
+    </div>
+    <div>
+      <button onclick="testId()">TestId</button>
+    </div>
+  </form>
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io.connect('http://localhost', { transports: ['websocket'] });
+    socket.on('messages', function (data) {
+      console.log(data);
+    });
+    socket.on('user', function (data) {
+      console.log(data);
+    });
+    function test() {
+      socket.emit('GET', {
+        method: 'GET',
+        url: '/api/users',
+        body: {},
+        headers: {
+          authToken: $('#chat_input').val()
+        }
+      });
+    }
+    function testId() {
+      socket.emit('GET', {
+        method: 'GET',
+        url: '/api/users/51933135-30c2-11e7-970d-0242ac170002?from=a&to=b',
+        body: {},
+        headers: {
+          authToken: $('#chat_input').val()
+        },
+        query: {
+          // from: '2017-01-07T04:40:38.000Z',
+          // to: '2017-04-07T04:40:49.000Z'
+        }
+      })
+    }
+  </script>
+</body>
+
+</html>

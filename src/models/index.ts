@@ -19,18 +19,26 @@ class Database {
     this._basename = path.basename(__filename);
     const dbConfig: IDatabaseConfig = databaseConfig[env];
 
-    this._sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, dbConfig)
-    this._models = ({} as any);
+    this._sequelize = new Sequelize(
+      dbConfig.database,
+      dbConfig.username,
+      dbConfig.password,
+      dbConfig
+    );
+    this._models = {} as any;
 
-    fs.readdirSync(__dirname).filter((file: string) => {
-      return (file !== this._basename) && (file !== "interfaces");
-    }).forEach((file: string) => {
-      const model = this._sequelize.import(path.join(__dirname, file));
-      this._models[(model as any).name] = model;
-    });
+    fs
+      .readdirSync(__dirname)
+      .filter((file: string) => {
+        return file !== this._basename && file !== 'interfaces';
+      })
+      .forEach((file: string) => {
+        const model = this._sequelize.import(path.join(__dirname, file));
+        this._models[(model as any).name] = model;
+      });
 
     Object.keys(this._models).forEach((modelName: string) => {
-      if (typeof this._models[modelName].associate === "function") {
+      if (typeof this._models[modelName].associate === 'function') {
         this._models[modelName].associate(this._models);
       }
     });

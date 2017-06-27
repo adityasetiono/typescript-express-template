@@ -1,4 +1,5 @@
-export const secret = ['6FA6dXnWOp1iK5z7V9rC',
+export const secret = [
+  '6FA6dXnWOp1iK5z7V9rC',
   'qnKOTTdHjFpE4Tj4XFIi',
   '7xE3nkKkWmpRyavTKEl3',
   'CH4HWJm3hxIT1WcM9gIR',

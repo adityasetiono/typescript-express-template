@@ -2,23 +2,16 @@ import * as express from 'express';
 import index from '../src/controllers/index';
 import user from '../src/controllers/user';
 import security from '../src/controllers/security';
+import { getUsers } from '../src/sockets/io/user';
 
-export interface IRoute {
-  prefix: string;
-  router: express.Router;
-}
-
-export class Route implements IRoute {
-  prefix: string;
-  router: express.Router;
-  constructor(prefix, router) {
-    this.prefix = prefix;
-    this.router = router;
-  }
-}
-
-export const routes:Array<Route> = [
-  (new Route('/', index)),
-  (new Route('/api/users', user)),
-  (new Route('/api', security))
+export const routes: Array<CustomRoute.IRoute> = [
+  { prefix: '/', router: index },
+  { prefix: '/api/users', router: user },
+  { prefix: '/api', router: security }
 ];
+
+export const socketRoutes: CustomRoute.ISocketRoute = {
+  '/api/users': getUsers
+};
+
+export const publicUris: Array<string> = ['/login'];

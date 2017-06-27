@@ -1,6 +1,7 @@
 import * as http from 'http';
 import * as debug from 'debug';
-import {sequelize} from "./models/index";
+import { sequelize } from './models/index';
+import io from './sockets/io';
 
 import App from './App';
 
@@ -13,11 +14,12 @@ const server = http.createServer(App);
 sequelize.sync().then(() => {
   server.listen(PORT);
   server.on('error', onError);
+  io(server, { transports: ['websocket'] });
   server.on('listening', onListening);
 });
 
-function normalizePort(val: number|string): number|string|boolean {
-  let port: number = (typeof val === 'string') ? parseInt(val, 10) : val;
+function normalizePort(val: number | string): number | string | boolean {
+  let port: number = typeof val === 'string' ? parseInt(val, 10) : val;
   if (isNaN(port)) return val;
   else if (port >= 0) return port;
   else return false;
@@ -25,8 +27,8 @@ function normalizePort(val: number|string): number|string|boolean {
 
 function onError(error: NodeJS.ErrnoException): void {
   if (error.syscall !== 'listen') throw error;
-  let bind = (typeof PORT === 'string') ? 'Pipe ' + PORT : 'Port ' + PORT;
-  switch(error.code) {
+  let bind = typeof PORT === 'string' ? 'Pipe ' + PORT : 'Port ' + PORT;
+  switch (error.code) {
     case 'EACCES':
       console.error(`${bind} requires elevated privileges`);
       process.exit(1);
@@ -42,6 +44,6 @@ function onError(error: NodeJS.ErrnoException): void {
 
 function onListening(): void {
   let addr = server.address();
-  let bind = (typeof addr === 'string') ? `pipe ${addr}` : `port ${addr.port}`;
+  let bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
   debug(`Listening on ${bind}`);
 }

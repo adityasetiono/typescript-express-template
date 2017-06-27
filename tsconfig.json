@@ -6,7 +6,12 @@
         "sourceMap": false,
         "outDir": "./dist/",
         "allowJs": true,
-        "types": [ "node", "sequelize" ],
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "types": [
+            "node",
+            "sequelize"
+        ],
         "lib": [
             "es2015"
         ]
@@ -17,5 +22,9 @@
     "exclude": [
         "node_modules"
     ],
-    "compileOnSave": true
+    "compileOnSave": true,
+    "files": [
+        "./global.d.ts",
+        "./extended-socket.d.ts"
+    ]
 }
