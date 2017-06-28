@@ -3,6 +3,12 @@ volumes:
   mysql_db:
     external: true
 services:
+  redis:
+    image: redis:alpine
+    command: redis-server
+    container_name: redis
+    ports:
+      - "6379:6379"
   mysql:
     image: mysql:5.7
     environment:
@@ -18,13 +24,15 @@ services:
     build: ./
     command: yarn run dev
     ports:
-        - "80:3000"
+      - "80:3000"
     volumes:
-        - ./src:/code/src
-        - ./config:/code/config
-        - ./dist:/code/dist
+      - ./src:/code/src
+      - ./config:/code/config
+      - ./dist:/code/dist
+      - ./public:/code/public
     tty: true
     links:
-        - mysql
+      - mysql
+      - redis
     environment:
-        NODE_ENV:
+      NODE_ENV:

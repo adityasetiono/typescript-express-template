@@ -1,6 +1,7 @@
 import { UserInstance } from '../models/user';
 import { Request, Response, NextFunction, Router } from 'express';
 import { models } from '../models/index';
+import { emitter } from '../sockets/io/emitter';
 const router = Router();
 
 router.get('/', async function(
@@ -10,6 +11,7 @@ router.get('/', async function(
 ) {
   try {
     const users: Array<UserInstance> = await models.User.findAll();
+    emitter.emit('users', JSON.stringify(users));
     res.json(users);
   } catch (err) {
     console.log(err);

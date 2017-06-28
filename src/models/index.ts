@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as Sequelize from 'sequelize';
-import { databaseConfig, IDatabaseConfig } from '../../config/connections';
+import { config, IConfig, IDatabaseConfig } from '../../config/connections';
 import * as logger from 'morgan';
 import { UserAttribute, UserInstance } from './user';
 const env: string = process.env.NODE_ENV || 'local';
@@ -17,7 +17,7 @@ class Database {
 
   constructor() {
     this._basename = path.basename(__filename);
-    const dbConfig: IDatabaseConfig = databaseConfig[env];
+    const dbConfig: IDatabaseConfig = config[env].database;
 
     this._sequelize = new Sequelize(
       dbConfig.database,

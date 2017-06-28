@@ -17,6 +17,9 @@
     <div>
       <button onclick="testId()">TestId</button>
     </div>
+    <div>
+      <button onclick="clog()">Log</button>
+    </div>
   </form>
   <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
   <script src="/socket.io/socket.io.js"></script>
@@ -25,9 +28,16 @@
     socket.on('messages', function (data) {
       console.log(data);
     });
-    socket.on('user', function (data) {
+    socket.on('users', function (data) {
+      const users = JSON.parse(data);
+      console.log(users);
+    });
+    socket.on('GET', function (data) {
       console.log(data);
     });
+    function clog() {
+      console.log('test');
+    }
     function test() {
       socket.emit('GET', {
         method: 'GET',

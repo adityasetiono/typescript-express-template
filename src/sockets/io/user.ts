@@ -7,6 +7,5 @@ export const getUsers = async (
 ) => {
   const users: UserInstance[] = await models.User.findAll();
   const u = users.map(user => user.toJSON());
-  console.log(u);
   socket.emit('GET', { users: u });
 };
