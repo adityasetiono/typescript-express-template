@@ -2,8 +2,8 @@ import * as path from 'path';
 import * as express from 'express';
 import * as logger from 'morgan';
 import * as bodyParser from 'body-parser';
-import * as auth from './middlewares/auth';
-import { routes } from '../config/routes';
+import * as auth from 'src/middlewares/auth';
+import { routes } from 'config/routes';
 
 class App {
   public express: express.Application;

@@ -1,9 +1,9 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as Sequelize from 'sequelize';
-import { config, IConfig, IDatabaseConfig } from '../../config/connections';
+import { config } from 'config/connections';
 import * as logger from 'morgan';
-import { UserAttribute, UserInstance } from './user';
+import { UserAttribute, UserInstance, user } from 'src/models/user';
 const env: string = process.env.NODE_ENV || 'local';
 
 export interface SequelizeModels {
@@ -17,7 +17,7 @@ class Database {
 
   constructor() {
     this._basename = path.basename(__filename);
-    const dbConfig: IDatabaseConfig = config[env].database;
+    const dbConfig: CustomConfig.IDatabaseConfig = config[env].database;
 
     this._sequelize = new Sequelize(
       dbConfig.database,
@@ -27,15 +27,11 @@ class Database {
     );
     this._models = {} as any;
 
-    fs
-      .readdirSync(__dirname)
-      .filter((file: string) => {
-        return file !== this._basename && file !== 'interfaces';
-      })
-      .forEach((file: string) => {
-        const model = this._sequelize.import(path.join(__dirname, file));
-        this._models[(model as any).name] = model;
-      });
+    const models = [user];
+    models.forEach(model => {
+      const m = model(this._sequelize, Sequelize);
+      this._models[(m as any).name] = m;
+    });
 
     Object.keys(this._models).forEach((modelName: string) => {
       if (typeof this._models[modelName].associate === 'function') {

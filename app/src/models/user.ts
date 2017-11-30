@@ -1,6 +1,6 @@
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
-import { secret } from '../../config/keys';
+import { secret } from 'config/keys';
 import * as Sequelize from 'sequelize';
 
 export interface UserAttribute {
@@ -11,20 +11,18 @@ export interface UserAttribute {
   email: string;
 }
 
-export interface UserInstance extends Sequelize.Instance<
-  UserAttribute
->, UserAttribute {
+export interface UserInstance
+  extends Sequelize.Instance<UserAttribute>,
+    UserAttribute {
   generateToken?: any;
 }
 
-export interface UserModel extends Sequelize.Model<
-  UserInstance,
-  UserAttribute
-> {
+export interface UserModel
+  extends Sequelize.Model<UserInstance, UserAttribute> {
   prototype?: any;
 }
 
-export default function(
+export function user(
   sequelize: Sequelize.Sequelize,
   DataTypes: Sequelize.DataTypes
 ): Sequelize.Model<UserInstance, UserAttribute> {

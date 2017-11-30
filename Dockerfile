@@ -1,5 +1,4 @@
-FROM node:7.7-slim
-MAINTAINER Aditya Setiono<winged.zach@gmail.com>
+FROM node:9.2-slim
 RUN mkdir /code
 WORKDIR /code
 COPY ./package.json /code

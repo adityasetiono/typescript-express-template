@@ -1,14 +1,10 @@
-import { UserInstance } from '../models/user';
+import { UserInstance } from 'src/models/user';
 import { Request, Response, NextFunction, Router } from 'express';
-import { models } from '../models/index';
-import { emitter } from '../sockets/io/emitter';
+import { models } from 'src/models/index';
+import { emitter } from 'src/sockets/io/emitter';
 const router = Router();
 
-router.get('/', async function(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
+router.get('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const users: Array<UserInstance> = await models.User.findAll();
     emitter.emit('users', JSON.stringify(users));
@@ -19,11 +15,7 @@ router.get('/', async function(
   }
 });
 
-router.post('/', async function(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
+router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const user = await models.User.create(req.body);
     res.json(user);
@@ -33,11 +25,7 @@ router.post('/', async function(
   }
 });
 
-router.get('/:id', async function(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
+router.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const user: UserInstance = await models.User.findOne({
       where: {
@@ -51,11 +39,7 @@ router.get('/:id', async function(
   }
 });
 
-router.put('/:id', async function(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
+router.put('/:id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const x = await models.User.update(req.body, {
       where: {
@@ -63,7 +47,6 @@ router.put('/:id', async function(
       },
       fields: ['name']
     });
-    console.log(x);
     res.json({});
   } catch (err) {
     console.log(err);

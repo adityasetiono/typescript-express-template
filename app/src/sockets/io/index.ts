@@ -1,8 +1,8 @@
-import { authenticate, parseRoute } from '../../middlewares/socket';
+import { authenticate, parseRoute } from 'src/middlewares/socket';
 import * as http from 'http';
 import * as socketio from 'socket.io';
 import * as redis from 'socket.io-redis';
-import { socketRoutes } from '../../../config/routes';
+import { socketRoutes } from 'config/routes';
 
 export default function(server: http.Server, options: object): SocketIO.Server {
   const io: SocketIO.Server = socketio(server, options);

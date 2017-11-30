@@ -1,23 +1,4 @@
-export interface IDatabaseConfig {
-  host: string;
-  username: string;
-  password: string;
-  dialect: string;
-  database: string;
-  port: number;
-}
-
-export interface IRedisConfig {
-  host: string;
-  port: number;
-}
-
-export interface IConfig {
-  database: IDatabaseConfig;
-  redis: IRedisConfig;
-}
-
-const local: IConfig = {
+const local: CustomConfig.IConfig = {
   database: {
     host: 'mysql',
     username: 'root',
@@ -32,7 +13,7 @@ const local: IConfig = {
   }
 };
 
-const develop: IConfig = {
+const develop: CustomConfig.IConfig = {
   database: {
     host: 'mysql',
     username: 'root',
@@ -47,7 +28,7 @@ const develop: IConfig = {
   }
 };
 
-const staging: IConfig = {
+const staging: CustomConfig.IConfig = {
   database: {
     host: 'mysql',
     username: 'root',
@@ -62,7 +43,7 @@ const staging: IConfig = {
   }
 };
 
-const production: IConfig = {
+const production: CustomConfig.IConfig = {
   database: {
     host: 'mysql',
     username: 'root',

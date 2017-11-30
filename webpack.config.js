@@ -1,37 +1,32 @@
+const nodeExternals = require('webpack-node-externals');
 const path = require('path');
-const fs = require('fs');
-const node_modules = fs.readdirSync('node_modules').filter(function (x) { return x !== '.bin' });
+const { TsConfigPathsPlugin } = require('awesome-typescript-loader');
+const rootPath = __dirname;
+const appPath = path.resolve(rootPath, 'app');
+const tsConfig = require('./tsconfig.json');
 
 module.exports = {
-  devtool: process.env.NODE_ENV == 'develop' ? 'eval' : undefined,
-  entry: [
-    path.resolve('./src/index.ts')
-  ],
-  target: 'node',
+  target: 'node', // in order to ignore built-in modules like path, fs, etc.
+  externals: [nodeExternals()], // in order to ignore all modules in node_modules folder
+  devtool: 'inline-source-map',
+  entry: [path.resolve(appPath, 'src/index.ts')],
   output: {
-    path: './dist',
-    filename: 'index.js',
-    libraryTarget: 'commonjs'
+    path: path.join(rootPath, 'dist'),
+    filename: 'bundle.server.js'
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx']
+    modules: ['node_modules', appPath],
+    extensions: ['.ts', '.tsx', '.js'],
+    enforceExtension: false,
+    plugins: [new TsConfigPathsPlugin(tsConfig)]
   },
   module: {
-    loaders: [{
-      // all files with a `.ts` or `.tsx` extension will be handled by `ts-loader`
-      test: /\.tsx?$/,
-      exclude: 'node_modules',
-      loader: 'ts-loader'
-    }]
-  },
-  externals: function(context, request, cb) {
-    if (node_modules.indexOf(request) !== -1) {
-      cb(null, 'commonjs ' + request);
-      return;
-    }
-    cb();
-  },
-  node: {
-    __dirname: true
+    loaders: [
+      {
+        test: /\.tsx?$/,
+        exclude: /node_modules/,
+        use: ['awesome-typescript-loader']
+      }
+    ]
   }
-}
+};

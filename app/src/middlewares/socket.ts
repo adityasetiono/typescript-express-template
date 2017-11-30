@@ -1,8 +1,8 @@
 import * as jwt from 'jsonwebtoken';
-import { secret } from '../../config/keys';
-import { socketRoutes } from '../../config/routes';
+import { secret } from 'config/keys';
+import { socketRoutes } from 'config/routes';
 import * as RouteParser from 'route-parser';
-import { publicUris } from '../../config/routes';
+import { publicUris } from 'config/routes';
 
 export function parseRoute(socket: any, next: Function) {
   Object.keys(socketRoutes).forEach(key => {
@@ -29,7 +29,6 @@ export function authenticate(socket: any, next: Function) {
     const token = socket[1].headers.authToken;
     try {
       const decoded = jwt.decode(token);
-      console.log(socket[1].headers);
       const status = jwt.verify(token, secret[decoded['n']]);
     } catch (err) {
       authenticated = false;

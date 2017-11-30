@@ -1,12 +1,13 @@
 import * as jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction, RequestHandler } from 'express';
-import { secret } from '../../config/keys';
-import { publicUris } from '../../config/routes';
+import { secret } from 'config/keys';
+import { publicUris } from 'config/routes';
 import * as RouteParser from 'route-parser';
 
 export function authenticate(req: Request, res: Response, next: NextFunction) {
   if (!publicUris.find(uri => uri === req.url)) {
-    const token = req.headers.authtoken;
+    const temp = req.headers.authorization;
+    const token: string = typeof temp === 'string' ? temp : temp[0];
     try {
       const decoded = jwt.decode(token);
       const status = jwt.verify(token, secret[decoded['n']]);

@@ -1,30 +1,27 @@
 {
-    "compilerOptions": {
-        "module": "commonjs",
-        "target": "es5",
-        "noImplicitAny": false,
-        "sourceMap": false,
-        "outDir": "./dist/",
-        "allowJs": true,
-        "experimentalDecorators": true,
-        "emitDecoratorMetadata": true,
-        "types": [
-            "node",
-            "sequelize"
-        ],
-        "lib": [
-            "es2015"
-        ]
-    },
-    "include": [
-        "src/**/*"
-    ],
-    "exclude": [
-        "node_modules"
-    ],
-    "compileOnSave": true,
-    "files": [
-        "./global.d.ts",
-        "./extended-socket.d.ts"
-    ]
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2017",
+    "noImplicitAny": false,
+    "sourceMap": false,
+    "outDir": "./dist/",
+    "allowJs": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "types": ["node"],
+    "lib": ["es2015", "es2017"],
+    "baseUrl": ".",
+    "paths": {
+      "src/*": ["app/src/*"],
+      "config/*": ["app/config/*"]
+    }
+  },
+  "include": ["app"],
+  "exclude": ["node_modules"],
+  "compileOnSave": true,
+  "files": [
+    "./typescript/global.d.ts",
+    "./typescript/extended-socket.d.ts",
+    "./typescript/configs.d.ts"
+  ]
 }

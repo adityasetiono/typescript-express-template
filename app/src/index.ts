@@ -1,9 +1,9 @@
 import * as http from 'http';
 import * as debug from 'debug';
-import { sequelize } from './models/index';
-import io from './sockets/io';
+import { sequelize } from 'src/models/index';
+import io from 'src/sockets/io';
 
-import App from './App';
+import App from 'src/App';
 
 debug('ts-express:server');
 
